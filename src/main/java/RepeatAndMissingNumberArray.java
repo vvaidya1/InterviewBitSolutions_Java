@@ -6,31 +6,27 @@ import java.util.*;
  */
 public class RepeatAndMissingNumberArray {
     // DO NOT MODIFY THE LIST. IT IS READ ONLY
-    public ArrayList<Integer> repeatedNumber(final List<Integer> a) {
+    public ArrayList<Integer> repeatedNumber(final List<Integer> A) {
+        if (A == null || A.size() == 0)
+            return new ArrayList<>();
 
-        ArrayList<Integer> res = new ArrayList<Integer>();
-        int n = a.size();
+        long n = A.size();
+        long sumN = (n * (n + 1)) / 2;
+        long sumNSq = (n * (n + 1) * (2 * n + 1)) / 6;
 
-        long sumOfNum = (((long) n) * ((long) n + 1)) / 2;
-        long sumOfSq = (((long) n) * ((long) n + 1) * ((long) 2*n + 1)) / 6;
-
-        for (int i=0; i < n; i++) {
-            sumOfNum -= (long) a.get(i);
+        for (Integer num : A) {
+            sumN -= (long) num;
+            sumNSq -= (long) num * (long) num;
         }
 
-        for (int i=0; i < n; i++) {
-            sumOfSq -= (long) a.get(i) * (long) a.get(i);
-        }
+        long sum = sumNSq / sumN;
+        long missingNumber = (sum + sumN) / 2;
+        long repeatedNumber = sum - missingNumber;
 
-        long sumNum = sumOfSq/sumOfNum;
-
-        int missing = (int) (sumNum + sumOfNum)/2;
-        int repeated = (int) (sumNum - missing);
-
-        res.add(repeated);
-        res.add(missing);
-
-        return res;
+        ArrayList<Integer> result = new ArrayList<>();
+        result.add((int) repeatedNumber);
+        result.add((int) missingNumber);
+        return result;
     }
 }
 
